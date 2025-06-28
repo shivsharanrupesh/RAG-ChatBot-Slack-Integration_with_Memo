@@ -64,3 +64,67 @@ A robust system for ingesting PDFs, answering questions via Retrieval-Augmented 
 ├── slack_bot.py        # Slack integration  
 ├── requirements.txt    # Python dependencies  
 └── *.log               # Log files  
+
+
+# Project Documentation
+
+## 5. Logging, Error Handling, and LLM Evaluation Metrics
+
+- **Logging Implementation**:
+  - Every script uses Python's `logging` module
+  - Records events, warnings, errors, and performance metrics
+  - Key metrics logged:
+    - Response time
+    - Number of retrieved chunks
+    - LLM interaction details
+
+- **Error Handling**:
+  - Comprehensive error catching throughout all components
+  - All errors are properly logged for debugging
+
+- **LLM Evaluation Metrics**:
+  - Tracked metrics include:
+    - Latency
+    - Retrieval count
+    - Sources cited
+  - Metrics are written to log files for later analysis
+
+## 6. Requirements and README
+
+### `requirements.txt`
+- Contains all Python dependencies for:
+  - PDF ingestion
+  - API backend
+  - Slack bot integration
+
+### `README.md`
+- **Contents**:
+  - Project architecture overview
+  - Detailed setup instructions
+  - Step-by-step usage guide
+  - Folder structure explanation
+  - Startup procedures
+- **Optional Expansions**:
+  - Additional usage examples
+  - Common patterns
+  - System diagrams
+
+## 7. Directory Structure: Why It Matters
+
+| Directory/File       | Purpose                                                                 |
+|----------------------|-------------------------------------------------------------------------|
+| `data/`              | Stores PDF files for ingestion                                         |
+| `memory_store/`      | Contains per-user session chat histories (as `.json` files)            |
+| `app/`               | Houses all core backend logic and ingestion scripts                    |
+| `*.log` files        | Created in working directory for easy access and monitoring            |
+
+## Summary Table
+
+| Feature                              | Implementation Details                                  |
+|--------------------------------------|--------------------------------------------------------|
+| Incremental PDF ingestion & dedup    | `ingest.py` + file hash + vectorstore                  |
+| Session/chat memory per user         | `rag_chain.py` + file-per-session memory               |
+| Robust logging, error handling       | All files, via Python logging                          |
+| Slack bot with feedback capture      | `slack_bot.py` + event listeners                       |
+| API backend                          | `api.py` (FastAPI)                                     |
+| Requirements, README, structure      | `requirements.txt`, `README.md`                        |
