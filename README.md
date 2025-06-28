@@ -1,22 +1,66 @@
-# RAG IT Support Chatbot
+# PDF RAG System with Slack Integration
 
-This project provides a Slack-integrated Retrieval-Augmented Generation (RAG) chatbot for IT support, using company PDF knowledge base, persistent session memory, and real-time feedback.
+A robust system for ingesting PDFs, answering questions via Retrieval-Augmented Generation (RAG), and interacting through a Slack bot with feedback capabilities.
 
-## Structure
+## Features
 
-- `app/ingest.py`: Incremental PDF ingestion and embedding
-- `app/rag_chain.py`: RAG logic and session memory
-- `app/api.py`: FastAPI backend
-- `slack_bot.py`: Slack bot event handler
-- `data/`: Place your company IT PDFs here
-- `memory_store/`: Chat/session memory per user
+- **Incremental PDF ingestion** with file hash deduplication
+- **Session-based chat memory** for personalized interactions
+- **Slack bot integration** with feedback capture
+- **Comprehensive logging** and error handling
+- **FastAPI backend** for question answering
 
-## Getting Started
+## System Components
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Place PDFs in `data/`
-3. Run `python app/ingest.py`
-4. Start API: `uvicorn app.api:app --reload`
-5. Configure Slack tokens and run `slack_bot.py`
+### 1. `app/ingest.py` - Incremental PDF Ingestion with File Hash Deduplication
 
-Edit code for your embedding/LLM provider and company requirements.
+**Key Functions:**
+- `get_file_hash(filepath)`: Computes SHA-256 hash of PDF files
+- `already_embedded(collection, filename, file_hash)`: Checks for existing embeddings
+- `ingest_pdfs()`: Main ingestion workflow
+
+**How Deduplication Works:**
+- Files are skipped if their hash matches existing records
+- Updated files replace old data with new chunks/embeddings
+
+### 2. `app/rag_chain.py` - RAG Chain Logic & File-based Session Memory
+
+**Session Memory:**
+- `get_session_history(session_id, max_turns=10)`: Loads chat history
+- `update_session_history(session_id, question, answer)`: Updates chat history
+
+**RAG Chain Core:**
+- `answer_question(question: str, session_id: str) -> dict`: Main Q&A function
+
+### 3. `app/api.py` - FastAPI Backend
+
+**API Endpoints:**
+- `/health`: Health check
+- `/ask`: Main question answering endpoint (POST)
+
+### 4. `slack_bot.py` - Slack Bot Event Handler & Feedback Capture
+
+**Features:**
+- Listens for mentions and direct messages
+- Captures emoji feedback (👍/👎)
+- Logs performance metrics
+
+### 5. Logging and Monitoring
+
+- Comprehensive logging across all components
+- Error handling and debugging support
+- LLM evaluation metrics tracking
+
+## Directory Structure
+rag-it-support-chatbot/
+├── app/
+│   ├── ingest.py         # PDF ingestion & embedding
+│   ├── rag_chain.py      # RAG chain logic & memory
+│   └── api.py            # FastAPI backend
+├── slack_bot.py          # Slack event handler
+├── requirements.txt      # All dependencies
+├── README.md
+├── data/                 # Place company IT PDFs here
+└── memory_store/         # Per-user chat/session history
+
+
