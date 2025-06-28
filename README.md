@@ -52,15 +52,15 @@ A robust system for ingesting PDFs, answering questions via Retrieval-Augmented 
 - LLM evaluation metrics tracking
 
 ## Directory Structure
-rag-it-support-chatbot/
-├── app/
-│   ├── ingest.py         # PDF ingestion & embedding
-│   ├── rag_chain.py      # RAG chain logic & memory
-│   └── api.py            # FastAPI backend
-├── slack_bot.py          # Slack event handler
-├── requirements.txt      # All dependencies
-├── README.md
-├── data/                 # Place company IT PDFs here
-└── memory_store/         # Per-user chat/session history
 
+# Project Structure
 
+├── data/               # PDF files for ingestion  
+├── memory_store/       # User session histories (.json)  
+├── app/                # Core backend logic  
+│   ├── ingest.py       # PDF ingestion  
+│   ├── rag_chain.py    # RAG logic  
+│   └── api.py          # FastAPI backend  
+├── slack_bot.py        # Slack integration  
+├── requirements.txt    # Python dependencies  
+└── *.log               # Log files  
