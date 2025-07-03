@@ -128,3 +128,102 @@ A robust system for ingesting PDFs, answering questions via Retrieval-Augmented 
 | Slack bot with feedback capture      | `slack_bot.py` + event listeners                       |
 | API backend                          | `api.py` (FastAPI)                                     |
 | Requirements, README, structure      | `requirements.txt`, `README.md`                        |
+
+
+## Key Evaluation Parameters for LLM Response in RAG
+
+### 1. Relevance
+**Definition**:  
+- Does the answer address the user's question?  
+- Does it use the most relevant retrieved chunks?  
+
+**Evaluation Methods**:  
+- **Human Review**: Rate as "relevant", "partially relevant", or "irrelevant"  
+- **Automatic**: Check if retrieved sources contain query keywords  
+
+### 2. Groundedness (Faithfulness)  
+**Definition**:  
+- Is the answer based only on provided context?  
+- Does it avoid hallucinations?  
+
+**Evaluation Methods**:  
+- **Human**: Flag answers with unsourced content  
+- **Automatic**: N-gram overlap between answer and retrieved chunks  
+
+### 3. Accuracy  
+**Definition**:  
+- Is the answer factually correct (especially for technical content)?  
+
+**Evaluation Methods**:  
+- **Expert Review**: SMEs verify answers  
+- **FAQ Matching**: Compare to gold reference answers  
+
+### 4. Completeness  
+**Definition**:  
+- Does the answer fully resolve the question?  
+- Are key details/steps missing?  
+
+**Evaluation Methods**:  
+- **Human**: Categorize as "Fully answered", "Partial", or "Incomplete"  
+
+### 5. Conciseness & Readability  
+**Definition**:  
+- Is the answer clear and free of jargon?  
+- Does it avoid unnecessary details?  
+
+### 6. Citation Quality  
+**Definition**:  
+- Are sources properly cited?  
+- Do citations point to correct documents/sections?  
+
+### 7. User Feedback  
+**Sources**:  
+- Slack reactions (👍/👎)  
+- Surveys  
+- Follow-up questions  
+
+### 8. Latency  
+**Metric**:  
+- Response time (critical for user satisfaction)  
+
+### 9. Escalation Rate  
+**Metric**:  
+- Frequency of bot-to-human handoffs  
+
+## How To Implement Evaluation
+# How To Achieve These Evaluations in Your Pipeline
+
+## Collect Logs
+Log all questions, retrieved docs, answers, sources, response time, and user ID.
+
+Log user feedback (reactions in Slack).
+
+## Human Review (Spot-checking)
+Review random samples of Q&A pairs for quality.
+
+Mark issues (hallucination, irrelevance, missing info, etc.).
+
+## Automated Metrics
+Track latency, answer length, retrieval count, presence of sources.
+
+If you have reference answers (for FAQ), calculate similarity (e.g., BLEU, ROUGE, BERTScore).
+
+## User Feedback
+Analyze rate of 👍 vs. 👎, and follow-up queries after each answer.
+
+## Business KPIs
+% of queries answered without escalation.
+
+Ticket reduction and time saved (already discussed above).
+
+## Example Evaluation Dashboard Metrics
+
+| Metric               | Target/Observation               |
+|----------------------|----------------------------------|
+| Avg. relevance       | 4.5/5 (human spot checks)       |
+| Groundedness         | 98% answers cite source         |
+| Accuracy             | 95%+ correct (expert review)    |
+| Latency              | <3 sec avg.                     |
+| User 👍 Rate         | 90%+                           |
+| Escalation Rate      | <20%                           |
+| Citation Correct     | 95%+ (right doc/page cited)     |
